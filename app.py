@@ -29,15 +29,15 @@ def upload_file():
         bank_selected = request.form.get('bank')  # Get the selected bank value
 
         if file:
-            # Save the uploaded PDF file
-            file_path = f'{file.filename}'
+            # Save the uploaded PDF file to the local storage directory
+            file_path = os.path.join(os.getenv('TMP', '/tmp'), file.filename)
             file.save(file_path)
 
-            # Store data in session for access in the analysis route
+            # Store the file path in the session for access in the analysis route
             session['file_path'] = file_path
             session['bank_selected'] = bank_selected
 
-            return redirect(url_for('analysis'))  # Redirect to the analysis route
+            return redirect(url_for('analysis'))
 
     return render_template('index.html', bank_selected=bank_selected)
 
