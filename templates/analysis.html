@@ -158,6 +158,35 @@
 
         <!-- Display the DataFrame -->
         <div class="container table-container">
+            <!-- Warning Icon and Text -->
+            {% if warning %}
+                {% if warning|length > 0 %}
+                    <div class="errMsgContainer">
+                        <ul>
+                            {% for w in warning %}
+                                {{ w }}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            {% endif %}
+
+            {% if p2p|length > 0 %}
+                <div class="p2pContainer">
+                    <ul>
+                        {% for p in p2p %}
+                            <li>{{ p }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="p2pContainer">
+                    <ul>
+                        <p>No disbursement from other P2P</p>
+                    </ul>
+                </div>
+            {% endif %}
+            
             {{ table|safe }}
 
             <!-- Pagination -->
@@ -219,7 +248,7 @@
 
         // Prepare data for Chart.js
         var labels = chartData.labels;
-        var amounts = chartData.amounts;
+        var balances = chartData.average_balances;
 
         // Create a chart using Chart.js
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -228,8 +257,8 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Amount',
-                    data: amounts,
+                    label: 'Daily balances',
+                    data: balances,
                     borderColor: '#007bff',
                     borderWidth: 2,
                     fill: false
@@ -238,7 +267,7 @@
             options: {
                 title: {
                     display: true,
-                    text: 'Amount'
+                    text: 'Daily balances'
                 },
                 scales: {
                     xAxes: [{
@@ -250,13 +279,14 @@
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Amount'
+                            labelString: 'Daily balances'
                         }
                     }]
                 }
             }
         });
     </script>
+    
 </body>
 
 </html>

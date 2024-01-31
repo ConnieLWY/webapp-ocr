@@ -45,8 +45,10 @@ def process_rows(rows):
                     if amt < 0:
                         amt = abs(amt)
                         A = f'{amt:.2f}-'
+                        sign = -1
                     else:
                         A = f'{amt:.2f}+'
+                        sign = 1
                     description = " ".join(elements[1:description_end+1])  # Join elements as description
                     if "DR" in elements[description_end + 1]:
                         B = elements[description_end + 1].replace("DR","")
@@ -56,7 +58,9 @@ def process_rows(rows):
                             "Date": elements[0],
                             "Description": description,
                             "Amount": A,
-                            "Balance": round(B, 2)
+                            "Balance": round(B, 2),
+                            "Sign": sign,
+                            "Amt": round(float(elements[description_end][0:-1].replace(",","")), 2)
                         }
                         previous_balance = transaction["Balance"]
                     else:
@@ -64,12 +68,18 @@ def process_rows(rows):
                             "Date": elements[0],
                             "Description": description,
                             "Amount": A,
-                            "Balance": float(elements[description_end + 1].replace(",",""))
+                            "Balance": float(elements[description_end + 1].replace(",","")),
+                            "Sign": sign,
+                            "Amt": round(float(elements[description_end][0:-1].replace(",","")), 2)
                         }
                         previous_balance = transaction["Balance"]
                 else:
                     description_end = amount_index
                     description = " ".join(elements[1:description_end])  # Join elements as description
+                    if elements[description_end][-1] == "-":
+                        sign = -1
+                    elif elements[description_end][-1] == "+":
+                        sign = 1
                     if "DR" in elements[description_end + 1]:
                         B = elements[description_end + 1].replace("DR","")
                         B = float(B.replace(",",""))
@@ -78,7 +88,10 @@ def process_rows(rows):
                             "Date": elements[0],
                             "Description": description,
                             "Amount": elements[description_end],
-                            "Balance": round(B, 2)
+                            "Balance": round(B, 2),
+                            "Sign": sign,
+                            "Amt": round(float(elements[description_end][0:-1].replace(",","")), 2)
+                            
                         }
                         previous_balance = transaction["Balance"]
                     else:
@@ -86,7 +99,9 @@ def process_rows(rows):
                             "Date": elements[0],
                             "Description": description,
                             "Amount": elements[description_end],
-                            "Balance": float(elements[description_end + 1].replace(",",""))
+                            "Balance": float(elements[description_end + 1].replace(",","")),
+                            "Sign": sign,
+                            "Amt": round(float(elements[description_end][0:-1].replace(",","")), 2)
                         }
                         previous_balance = transaction["Balance"]
 
@@ -122,5 +137,8 @@ def main(rows):
     data = process_rows(rows)
 
     df = pd.DataFrame.from_dict(data, orient='index')
+
+    df['Amount2'] = df.Amt * df.Sign
+
     return df
 
