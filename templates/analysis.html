@@ -42,7 +42,6 @@
             margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-            width: 30%;
         }
 
         .summary-container ul {
@@ -130,7 +129,7 @@
         <!-- Summary Containers -->
         <div class="container summary-container-wrapper">
             {% for month, data in summary_data.items() %}
-            <div class="summary-container">
+            <div class="summary-container col-md-4">
                 <h2>{{ month }}</h2>
                 <div class="col-12">
                     <div class="row">
@@ -187,7 +186,11 @@
                 </div>
             {% endif %}
             
-            {{ table|safe }}
+            <div class="container table-container table-responsive">
+                <!-- ... content ... -->
+                {{ table|safe }}
+                <!-- ... content ... -->
+            </div>
 
             <!-- Pagination -->
             <div class="pagination">
