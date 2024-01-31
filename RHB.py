@@ -1,8 +1,4 @@
-import pdfplumber
-import re
-import json
-import csv
-from datetime import datetime
+
 import pandas as pd
 
 def find_next_one(my_list, index):

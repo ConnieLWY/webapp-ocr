@@ -1,8 +1,4 @@
-import pdfplumber
 import re
-import json
-import csv
-from datetime import datetime
 import pandas as pd
 
 
@@ -77,18 +73,6 @@ def process_rows(rows):
 
     return data
 
-def save_as_json(data, output_file='output.json'):
-    with open(output_file, 'w') as json_file:
-        json.dump(data, json_file, indent=4)
-
-def save_as_csv(data, csv_file_name='output.csv'):
-    with open(csv_file_name, 'w', newline='') as csv_file:
-        csv_writer = csv.writer(csv_file)
-        for transaction_id, transaction_data in data.items():
-            formatted_date = datetime.strptime(transaction_data["Date"], "%d/%m").strftime("%m-%d")
-            csv_writer.writerow([transaction_id, formatted_date, transaction_data["Description"],
-                                 transaction_data["Amount"], transaction_data["Balance"]])
-    print(f'Conversion complete. CSV file saved as {csv_file_name}')
 
 def main(rows):
     DATE_REGEX = r'\d{2}/\d{2}'

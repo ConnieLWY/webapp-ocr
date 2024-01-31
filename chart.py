@@ -1,7 +1,5 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-from io import BytesIO
-import base64
+
 
 def plot_to_html_image(df):
     # Convert the 'Amount' column to numeric, handling the signs and commas
