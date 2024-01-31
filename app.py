@@ -28,7 +28,7 @@ def upload_file():
 
         if file:
             # Save the uploaded PDF file
-            file_path = f'static/{file.filename}'
+            file_path = f'{file.filename}'
             file.save(file_path)
 
             # Store data in session for access in the analysis route
