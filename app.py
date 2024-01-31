@@ -1,14 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import pdfplumber
-import MBB
-import CIMB
-import HLBB
-import PBB
-import RHB
 import os
 import pandas as pd
-import summary
-import chart
+from python import MBB
+from python import CIMB
+from python import HLBB
+from python import PBB
+from python import RHB
+from python import summary
+from python import chart
+
+
 
 
 app = Flask(__name__)
