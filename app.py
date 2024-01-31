@@ -139,9 +139,9 @@ def analysis():
     flash('Invalid access to the analysis route.')
     return redirect(url_for('upload_file'))
 
-# @app.errorhandler(Exception)
-# def handle_error(e):
-#     return render_template('error.html', error=str(e))
+@app.errorhandler(Exception)
+def handle_error(e):
+    return render_template('error.html', error=str(e))
 
 if __name__ == '__main__':
     app.run(debug=True)
